@@ -1,0 +1,143 @@
+---
+title: "LED Tubelight Buying Guide: Lumens, Drivers, Colour & Safe Retrofits"
+category: "lighting"
+categoryLabel: "Lighting"
+slug: "led-tubelight-guide"
+summary: "How to choose LED tubelights and battens for an Indian home. Understand lumens vs watts, colour temperature, driver quality, why retrofit tubes can be unsafe if wired wrongly, and 5 checks to avoid poor-quality products."
+updated: "October 2026"
+readTime: "7 min read"
+standards:
+  # VERIFY these numbers and their latest revisions on the BIS portal before publishing.
+  # BIS revised several LED lighting standards in 2026.
+  - "IS 16102 (Part 1) (Safety of Self-Ballasted LED Lamps, BIS CRS)"
+  - "IS 16614 (Part 2) (Double-Capped LED Linear Lamps, Performance)"
+  - "IS 16103 (Part 1) (LED Modules, Safety)"
+calculatorTags:
+  - "tube-light"
+  - "lighting"
+relatedGuides:
+  - title: "Ceiling Fan Buying Guide: BLDC vs Regular, Star Ratings & Room Size"
+    category: "fans"
+    slug: "ceiling-fan-guide"
+    description: "The other appliance that runs for hours every day. Choose it for efficiency too."
+  - title: "MCB Buying Guide: Miniature Circuit Breakers & Overcurrent Protection"
+    category: "protection"
+    slug: "mcb-guide"
+    description: "Light circuits need the right breaker and wire. Learn what to ask for."
+faq:
+  - question: "Should I look at watts or lumens?"
+    answer: "Lumens. Watts tell you how much electricity the tube uses, while lumens tell you how much light you get. A good 20 W, 4 ft LED tube should give roughly 2,000 lumens (about 100 lumens per watt). A tube that claims 20 W but gives 1,400 lumens is simply a weaker product."
+  - question: "Can I put an LED tube into my old tubelight fitting?"
+    answer: "Often yes, but you must check which type you bought. Some LED tubes work with the old ballast (choke), while many need the ballast removed or bypassed so that mains power goes straight to the tube. Wrong wiring causes buzzing, no light, overheating, or an electric shock risk when changing the tube. Have an electrician do it, and switch off at the MCB first."
+  - question: "Which colour temperature is best: 3000K, 4000K or 6500K?"
+    answer: "3000K (warm white) for bedrooms and living areas, 4000K (neutral white) for kitchens, study rooms and workspaces, and 6500K (cool daylight) only where you want a very bright, clinical look, such as a garage or a store room. Many homes use 6500K everywhere because it is cheap, and find it harsh at night."
+  - question: "Is a batten better than a tube and fitting?"
+    answer: "For a new installation, yes. An LED batten has the driver built in, a slim body, and no old ballast to deal with. A retrofit tube is a good choice when you want to keep an existing fitting."
+  - question: "Why does my LED tube flicker?"
+    answer: "Common causes are a poor-quality driver, a dimmer or regulator that is not compatible, a loose connection, or an old ballast that is still in the circuit. Flicker that is visible on a phone camera in slow motion usually points to a weak driver."
+---
+
+## What it is: The Light That Runs Every Evening
+
+Tubelights are the main room lighting in many Indian homes. Replacing an old fluorescent tube with an LED one is one of the cheapest efficiency upgrades you can make.
+
+```
+Supply ──► Switch ──► [Driver / Ballast] ──► LED chips ──► Light
+```
+
+Three common formats:
+- **Retrofit LED tube (G13, 4 ft):** replaces a fluorescent tube in an existing fitting.
+- **LED batten:** a slim fitting with the driver built in. Best for new installs.
+- **LED panel:** flat light for false ceilings.
+
+---
+
+## How it works: Why the Driver Matters Most
+
+LEDs run on low-voltage DC. The **driver** converts the 230 V AC supply into the correct DC current.
+
+- A good driver gives steady light, low flicker and a long life.
+- A cheap driver is the usual reason an LED tube fails early, flickers, or runs hot.
+- Many failures are not the LED chips but the driver.
+
+<VideoEmbed url="" title="How an LED Driver Works" />
+
+---
+
+## Specs that matter: Decoding the Label
+
+| Spec | What to look for | Why it matters |
+|---|---|---|
+| **Lumens** | About 2,000 lm for a 4 ft, 20 W tube | The actual amount of light. |
+| **Efficacy (lm/W)** | About 100 or more | Higher means lower bills for the same light. |
+| **Colour temperature** | 3000K, 4000K or 6500K | Warm to cool look. |
+| **CRI (colour rendering)** | 80 or more | How natural colours look, such as food and skin. |
+| **Power factor** | 0.9 or more | Better power quality. |
+| **Driver type** | Isolated driver preferred | Lowers shock risk on the lamp body. |
+| **Life and warranty** | 25,000 hours rated, 1 to 2 years warranty | Cheap tubes often fail within a year. |
+| **BIS mark** | ISI mark with a registration number | Basic safety certification. |
+| **IP rating** | IP44 or higher for bathrooms and kitchens | Protection from moisture. |
+
+---
+
+## Ratings & Sizing: How Much Light Does a Room Need?
+
+A simple rule of thumb is to count lumens per square foot of floor area:
+
+| Room | Lumens per sq ft |
+|---|---|
+| Bedroom, living room | About 10 to 20 |
+| Kitchen | About 30 to 40 |
+| Study / work area | About 40 to 50 |
+
+**Example:** a 12 × 10 ft bedroom is 120 sq ft. At about 15 lm per sq ft, you need about 1,800 lumens, so one good 20 W tube is enough.
+
+### What does the switch save? (illustrative)
+An old 40 W fluorescent tube with a choke uses about 50 W in total. A 20 W LED tube saves around 30 W. At 6 hours a day and about ₹6 per unit:
+- 30 W × 6 h × 30 days ≈ 5.4 units a month, roughly ₹32 per tube per month.
+- A tube costs roughly ₹150 to ₹400, so it often pays back within a year. Use the calculator for your own numbers.
+
+---
+
+## 5 Checks Before You Buy
+
+### Check 1: Verify the BIS registration
+Use the **BIS CARE** app to look up the registration number printed beside the ISI mark. It should show the brand and the product category.
+
+### Check 2: Compare lumens, not just watts
+Look for the lumen figure on the pack. If it is missing, treat that as a warning sign.
+
+### Check 3: Measure it
+Plug the fitting into a plug-in energy meter or smart plug with power monitoring. The watts shown should be close to the label, within about 10 per cent.
+
+### Check 4: Slow-motion flicker test
+Film the lit tube with your phone camera in slow motion. Visible banding or pulsing means the driver is weak.
+
+### Check 5: Heat test after 30 minutes
+Switch the light off at the MCB before touching it. A driver or body that is too hot to hold points to poor design.
+
+---
+
+## How to Choose & What to Buy: Checklist for Homeowners
+
+- [ ] **Lumens** matched to the room, not just a wattage.
+- [ ] **Colour temperature:** 3000K for relaxing rooms, 4000K for working rooms.
+- [ ] **CRI 80 or more**, especially in kitchens.
+- [ ] **Battens** for new installations, and retrofit tubes only if the fitting is wired correctly.
+- [ ] **BIS registration** and a valid licence number.
+- [ ] **Warranty** of at least 1 year, with an invoice kept.
+- [ ] **Commonly available brands in India:** Philips, Syska, Havells, Wipro, Crompton, Orient, Bajaj, Ledvance. Compare current models, since specs change often.
+
+---
+
+## 3 Common LED Tube Mistakes to Avoid
+
+1. **Buying by watts only:** two 20 W tubes can give very different amounts of light.
+2. **Using 6500K everywhere:** it saves nothing and often feels harsh in bedrooms and living rooms.
+3. **Retrofitting without checking the wiring:** a tube meant for a bypassed ballast, put into a circuit that still has the choke, can fail or overheat. A bypassed tube can also be live at both ends while it is being changed.
+
+---
+
+## Safety note
+
+Always switch off at the MCB before changing or retrofitting a tube. Ballast bypass and fitting wiring should be done by a qualified electrician. Have a licensed electrician verify the installation before use.

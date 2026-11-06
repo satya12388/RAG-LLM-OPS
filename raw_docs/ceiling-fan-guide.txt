@@ -1,0 +1,161 @@
+---
+title: "Ceiling Fan Buying Guide: BLDC vs Regular, Star Ratings & Room Size"
+category: "fans"
+categoryLabel: "Fans & Cooling"
+slug: "ceiling-fan-guide"
+summary: "How to choose a ceiling fan for an Indian home. Understand BLDC vs regular motors, what BEE star ratings and service value really mean, the right sweep size for your room, how much a BLDC fan saves, and 5 checks before you buy."
+updated: "October 2026"
+readTime: "8 min read"
+standards:
+  # VERIFY the current revision on the BIS portal before publishing
+  - "IS 374:2019 (Electric Ceiling Type Fans and Regulators)"
+  - "BEE Star Labelling Programme for Ceiling Fans"
+calculatorTags:
+  - "ceiling-fan"
+  - "cooling"
+relatedGuides:
+  - title: "MCB Buying Guide: Miniature Circuit Breakers & Overcurrent Protection"
+    category: "protection"
+    slug: "mcb-guide"
+    description: "Fan and light circuits need the right breaker. Learn what to ask your electrician for."
+  - title: "LED Tubelight Buying Guide"
+    category: "lighting"
+    slug: "led-tubelight-guide"
+    description: "The other always-on load in most rooms. Pick lighting that saves units too."
+faq:
+  - question: "Is a BLDC fan worth the higher price?"
+    answer: "It depends on how many hours it runs. A regular fan draws roughly 50 to 80 W, while a BLDC fan draws roughly 25 to 35 W. If a fan runs 12 to 14 hours a day, the extra cost of a BLDC fan often returns in about 1.5 to 2.5 years. For a fan that runs only 3 to 4 hours a day, it can take much longer. Use the calculator on this site to see your own numbers."
+  - question: "Are all 5-star fans BLDC?"
+    answer: "In practice, almost all. Under IS 374:2019, a 5-star rating for fans of 1200 mm and above needs a service value of about 6.0 or more, which is very hard for a standard induction motor to reach. Always check the model-specific star label rather than the word '5 star' in an advertisement."
+  - question: "Which sweep size should I buy: 900, 1200 or 1400 mm?"
+    answer: "As a rule of thumb: 900 to 1050 mm for rooms up to about 100 sq ft, 1200 mm for about 100 to 150 sq ft, and 1400 mm for about 150 to 250 sq ft. For larger halls, use two fans instead of one very big one. A bigger fan in a small room simply feels like a gale at medium speed and wastes money."
+  - question: "Can I use my old regulator with a BLDC fan?"
+    answer: "Usually not. BLDC fans normally come with a remote and their own electronics, and a wall regulator can interfere with them. Set the old regulator to full or have your electrician bypass it, and follow the manufacturer's manual."
+  - question: "Does a BLDC fan work on an inverter?"
+    answer: "Yes, and its low power draw stretches your backup time. Check the manufacturer's inverter compatibility note, and prefer a pure sine wave inverter."
+---
+
+## What it is: The Always-On Appliance
+
+In most Indian homes the ceiling fan is the longest-running appliance after the refrigerator. In summer, a single fan can run 12 to 14 hours a day. Small differences in watts therefore add up to real money on your bill.
+
+```
+Ceiling hook ──► Down rod ──► Motor ──► Blades ──► Air delivery
+                                │
+                          Regulator / Remote
+```
+
+There are two motor types:
+- **Regular (induction) fan:** about 50 to 80 W. Low price, simple, easy to repair.
+- **BLDC (brushless DC) fan:** about 25 to 35 W. Higher price, remote control, quieter, and much more efficient.
+
+---
+
+## How it works: Why BLDC Uses Less Power
+
+### Regular induction motor
+The motor is powered directly from the 230 V AC supply. A large part of the electricity turns into heat inside the copper windings, and the fan speed is reduced by a regulator that wastes some power.
+
+### BLDC motor
+A small electronic driver inside the fan converts AC to DC and switches the motor windings electronically. There are no brushes to wear out.
+- Far less heat loss, so the same air needs fewer watts.
+- Speed is set electronically, so low speeds also save power.
+- Quiet running and remote or app control are common extras.
+
+<VideoEmbed url="" title="BLDC vs Induction Ceiling Fan: How They Work" />
+
+---
+
+## Specs that matter: Read the Box Like an Engineer
+
+| Spec | What to look for | Why it matters |
+|---|---|---|
+| **Sweep size** | 900 / 1050 / 1200 / 1400 mm | Must suit your room size. |
+| **Air delivery (CMM)** | A 1200 mm fan should deliver at least 210 m³/min under the standard | The actual breeze you feel. |
+| **Power consumption (W)** | 25 to 35 W for BLDC, 50 to 80 W for regular | Drives your monthly units. |
+| **Service value** | Air delivery ÷ watts. Higher is better | The number behind star ratings. |
+| **BEE star rating** | Check the label for the exact model | Quick efficiency summary. |
+| **ISI mark** | Present on the fan, with a licence number | Basic electrical safety. |
+| **Warranty and service** | 2 years or more on the product, longer on the motor, with a service centre in your city | BLDC electronics can fail, so service matters. |
+
+---
+
+## Ratings & Sizing: Stars and Service Value Explained
+
+BEE star ratings for ceiling fans are based on **service value** (air delivered per watt):
+
+| Rating | Service value for 1200 to 1500 mm fans (m³/min per W) |
+|---|---|
+| 1 Star | about 4.0 to below 4.5 |
+| 5 Star | 6.0 or higher |
+
+Under the current standard (IS 374:2019), many older fans that used to get 5 stars now rate far lower, which is why 5 stars today usually means BLDC. A fan that shows 5 stars but has a very low air delivery is not a good buy. Always check the air delivery figure as well as the wattage.
+
+### Room size guide (rule of thumb)
+
+| Room size | Suggested fan |
+|---|---|
+| Up to about 100 sq ft (small bedroom, study) | 900 to 1050 mm |
+| About 100 to 150 sq ft (bedroom) | 1200 mm |
+| About 150 to 250 sq ft (living room) | 1400 mm |
+| Above 250 sq ft (hall) | Two fans |
+
+### What does a BLDC fan save? (illustrative)
+Assume a regular fan at 75 W, a BLDC at 30 W, and an energy price of about ₹6 per unit:
+- Saving: 45 W × 8 hours × 30 days ≈ **10.8 units a month**, which is roughly ₹65 a month per fan.
+- At 14 hours a day in summer: about 19 units, roughly ₹113 a month per fan.
+- If the BLDC fan costs around ₹2,000 more, payback is about 18 to 30 months depending on usage. Your own tariff and hours will change this, so use the calculator.
+
+---
+
+## 5 Checks Before You Buy
+
+### Check 1: Verify the ISI licence
+Use the **BIS CARE** app to confirm the licence number on the fan is valid for ceiling fans.
+
+### Check 2: Calculate service value yourself
+Divide the air delivery (CMM) by the wattage printed on the box. If the maths does not match the star claim, ask why.
+
+### Check 3: Match the star label to the exact model
+The star label should carry the model number of the fan in the box, not a generic sticker.
+
+### Check 4: Test for wobble and noise
+At a showroom or right after installation, run the fan at all speeds. Visible wobble, humming or clicking points to poor balancing or weak bearings.
+
+### Check 5: Confirm service
+Ask where the nearest service centre is, and what the process is for a faulty remote or driver. Keep the invoice.
+
+---
+
+## How to Choose & What to Buy: Checklist for Homeowners
+
+- [ ] **Sweep size** chosen for the room, not by habit.
+- [ ] **BEE 5-star BLDC** for rooms where the fan runs 8 or more hours a day.
+- [ ] **Air delivery** printed on the box and in line with the size.
+- [ ] **Remote** included, with a manual override.
+- [ ] **ISI mark** and a valid licence number.
+- [ ] **Warranty** of at least 2 years, with a local service centre.
+- [ ] **Commonly available BLDC brands in India:** Atomberg, Havells, Crompton, Orient, Usha, Bajaj, V-Guard, Polycab. Compare current models and reviews, since specs change often.
+
+---
+
+## Installation Basics
+
+- **Clearance:** keep the blades at least about 2.4 m (8 ft) above the floor and about 0.3 m below the ceiling. Keep the blade tips well away from walls.
+- **Hook:** use a fan-rated hook or box that can carry the fan's weight and its movement. A normal lamp hook is not enough.
+- **Circuit:** fans and lights normally share a lighting circuit with a 6 A or 10 A Type C MCB and 1.5 sq mm wire. See the MCB guide.
+- **Regulator:** leave an old regulator at full speed or bypass it when fitting a BLDC fan.
+
+---
+
+## 3 Common Ceiling Fan Mistakes to Avoid
+
+1. **Buying by price alone:** the cheapest fan can cost far more in units over its life.
+2. **Judging by wattage only:** a 28 W fan that moves very little air is not efficient. Check air delivery and service value together.
+3. **Oversized fan in a small room:** you end up running it on low speed, where it moves air poorly and wastes its extra cost.
+
+---
+
+## Safety note
+
+A falling ceiling fan can cause serious injury. Use a proper fan hook or box, have the fan fitted by a qualified electrician, and have the wiring checked by a licensed electrician before installation.
