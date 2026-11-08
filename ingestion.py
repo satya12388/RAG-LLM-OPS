@@ -25,7 +25,7 @@ def ingest_docs():
     raw_doc_path = Path("./raw_docs")
     loader = DirectoryLoader(
         path=raw_doc_path,
-        glob="*txt",
+        glob="*mdx",
         loader_cls=TextLoader)
 
     docs = loader.load()

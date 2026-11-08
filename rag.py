@@ -58,7 +58,7 @@ graph.add_edge("n_generate",END)
 
 graph_agent = graph.compile()
 
-res = graph_agent.invoke({"query":"what are the specification while buying a light?"})
+res = graph_agent.invoke({"query":"Does MCB protects humans from electric shock?"})
 
 print(f"Context retrieved: {res["context"]}")
 print(f"/n======/nresponse: {res["response"]}")
