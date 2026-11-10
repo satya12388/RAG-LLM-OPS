@@ -7,10 +7,13 @@ from deepeval.metrics import (
     FaithfulnessMetric
 )
 from deepeval.dataset import EvaluationDataset
-from src.utils.custom_llm import OllamaLLM,GroqLLM
+from langchain_openai import ChatOpenAI
 from src.evals.custom_metrics import correctness_metric
 
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 ROOT_DIR_PATH = Path(__file__).parent.parent.parent
 TEST_CASES_PATH = ROOT_DIR_PATH/"data_sets"/"test_cases"/"rag_llm_testcases.json"
@@ -20,8 +23,7 @@ REPORTS_PATH.mkdir(
     exist_ok=True
 )
 
-llm = GroqLLM(model_name="openai/gpt-oss-20b")
-# llm = OllamaLLM()
+llm = "gpt-4.1-mini"
 
 evaluation_data = EvaluationDataset()
 evaluation_data.add_test_cases_from_json_file(
@@ -36,23 +38,23 @@ test_cases = evaluation_data.test_cases
 
 metrics = [
     ContextualRelevancyMetric(model=llm),
-    # ContextualPrecisionMetric(model=llm),
+    ContextualPrecisionMetric(model=llm),
     ContextualRecallMetric(model=llm),
-    # AnswerRelevancyMetric(model=llm),
-    # FaithfulnessMetric(model=llm),
+    AnswerRelevancyMetric(model=llm),
+    FaithfulnessMetric(model=llm),
     correctness_metric
 ]
 
 evaluate(
     test_cases = test_cases,
     metrics=metrics,
-    async_config=AsyncConfig(run_async=True,throttle_value=90,max_concurrent=1),
+    async_config=AsyncConfig(run_async=True,throttle_value=5,max_concurrent=3),
     cache_config=CacheConfig(write_cache=False, use_cache=False),
     display_config=DisplayConfig(
         verbose_mode=True,
         results_folder=REPORTS_PATH.as_posix(),
         file_type='html',
-        file_output_dir=ROOT_DIR_PATH.as_posix())
+        file_output_dir=REPORTS_PATH.as_posix())
 )
 
 

@@ -1,9 +1,11 @@
 from deepeval.metrics.g_eval import Rubric
 from deepeval.metrics import GEval
 from deepeval.test_case import SingleTurnParams
-from src.utils.custom_llm import GroqLLM
+from dotenv import load_dotenv
 
-llm = GroqLLM()
+load_dotenv()
+
+llm = "gpt-4.1-mini"
 
 rubric = [
     Rubric(score_range=(0,2), expected_outcome="Factually incorrect."),

@@ -1,7 +1,9 @@
 from deepeval.synthesizer.synthesizer import Synthesizer
 from deepeval.synthesizer.config import FiltrationConfig,EvolutionConfig,Evolution,ContextConstructionConfig
-from src.utils.custom_llm import OllamaLLM,GroqLLM
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 ## Paths
 ROOT_PATH = Path(__file__).parent.parent.parent
@@ -11,10 +13,8 @@ DATA_SET_PATH.mkdir(parents = True,exist_ok = True)
 GOLDEN_DATA_PATH = DATA_SET_PATH/"goldens"
 GOLDEN_DATA_PATH.mkdir(parents = True,exist_ok = True)
 
-
-groq_llm = GroqLLM(model_name="qwen/qwen3.8-27b")
-# groq_llm = OllamaLLM()
-critic_model = GroqLLM(model_name="openai/gpt-oss-20b")
+llm = "gpt-4o-mini"
+critic_model = "gpt-4.1-mini"
 
 
 def get_doc_path(path=DOCS_PATH):
@@ -57,17 +57,17 @@ evolution_config = EvolutionConfig(
         Evolution.CONSTRAINED:0.2,
         Evolution.CONCRETIZING:0.35,
         Evolution.REASONING:0.35,
-    }
+    },
 )
 
 context_config = ContextConstructionConfig(
-    critic_model=critic_model,
-    max_contexts_per_document=2,
-    context_quality_threshold=0.6
+    max_contexts_per_document=3,
+    context_quality_threshold=0.6,
+    critic_model=critic_model
 )
 
 synthesizer = Synthesizer(
-    model=groq_llm,
+    model=llm,
     max_concurrent=1,
     filtration_config=filtration_config,
     evolution_config=evolution_config
@@ -76,7 +76,7 @@ synthesizer = Synthesizer(
 goldens = synthesizer.generate_goldens_from_docs(
     document_paths=get_doc_path(path=DOCS_PATH),
     include_expected_output=True,
-    max_goldens_per_context=1,
+    max_goldens_per_context=2,
     context_construction_config=context_config
 )
 

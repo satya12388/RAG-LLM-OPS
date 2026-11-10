@@ -1,16 +1,18 @@
-from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 from langchain_core.documents import Document
 from langgraph.graph import StateGraph,START,END
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from typing import List,TypedDict
 from src.app.ingestion import retreiver
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-llm = ChatOllama(
-    model = "gemma4:e2b",
+llm = ChatOpenAI(
+    model_name = "gpt-4o-mini",
     temperature=1,
-    reasoning=False
 )
 
 class RagState(TypedDict):

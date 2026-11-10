@@ -1,12 +1,15 @@
 from langchain_community.document_loaders import DirectoryLoader,TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_ollama import OllamaEmbeddings,ChatOllama
+from langchain_openai import OpenAIEmbeddings,ChatOpenAI
 from langchain_chroma import Chroma
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 ## Initializing Models
-embedder = OllamaEmbeddings(
-    model="embeddinggemma-2:270m",
+embedder = OpenAIEmbeddings(
+    model="text-embedding-3-small",
 )
 
 vector_store = Chroma(
@@ -16,7 +19,7 @@ vector_store = Chroma(
 )
 
 retreiver = vector_store.as_retriever(
-    search_kwargs = {"k":3}
+    search_kwargs = {"k":4}
 )
 
 
@@ -31,7 +34,7 @@ def ingest_docs():
     docs = loader.load()
 
     ## Chunking the docs
-    splitter = RecursiveCharacterTextSplitter(chunk_size = 1500,chunk_overlap = 200)
+    splitter = RecursiveCharacterTextSplitter(chunk_size = 2000,chunk_overlap = 200)
     chunks = splitter.split_documents(docs)
     print(f"The size of chunks is:{len(chunks)}")
 
