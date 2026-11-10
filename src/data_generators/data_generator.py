@@ -1,10 +1,10 @@
 from deepeval.synthesizer.synthesizer import Synthesizer
 from deepeval.synthesizer.config import FiltrationConfig,EvolutionConfig,Evolution,ContextConstructionConfig
-from custom_llm import OllamaLLM,GroqLLM
+from src.utils.custom_llm import OllamaLLM,GroqLLM
 from pathlib import Path
 
 ## Paths
-ROOT_PATH = Path(__file__).parent
+ROOT_PATH = Path(__file__).parent.parent.parent
 DOCS_PATH  = ROOT_PATH/"raw_docs"
 DATA_SET_PATH = ROOT_PATH/"data_sets"
 DATA_SET_PATH.mkdir(parents = True,exist_ok = True)
@@ -12,8 +12,8 @@ GOLDEN_DATA_PATH = DATA_SET_PATH/"goldens"
 GOLDEN_DATA_PATH.mkdir(parents = True,exist_ok = True)
 
 
-# groq_llm = GroqLLM(model_name="qwen/qwen3.8-27b")
-groq_llm = OllamaLLM()
+groq_llm = GroqLLM(model_name="qwen/qwen3.8-27b")
+# groq_llm = OllamaLLM()
 critic_model = GroqLLM(model_name="openai/gpt-oss-20b")
 
 

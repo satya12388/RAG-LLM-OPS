@@ -4,7 +4,7 @@ from langgraph.graph import StateGraph,START,END
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from typing import List,TypedDict
-from ingestion import retreiver
+from src.app.ingestion import retreiver
 
 
 llm = ChatOllama(

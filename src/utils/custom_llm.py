@@ -37,7 +37,7 @@ class OllamaLLM(DeepEvalBaseLLM):
 
 class GroqLLM(DeepEvalBaseLLM):
 
-    def __init__(self, model_name="llama-3.3-70b-versatile"):
+    def __init__(self, model_name="openai/gpt-oss-20b"):
 
         self.model_name = model_name
 
