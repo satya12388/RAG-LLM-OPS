@@ -51,7 +51,6 @@ evaluate(
     async_config=AsyncConfig(run_async=True,throttle_value=5,max_concurrent=3),
     cache_config=CacheConfig(write_cache=False, use_cache=False),
     display_config=DisplayConfig(
-        verbose_mode=True,
         results_folder=REPORTS_PATH.as_posix(),
         file_type='html',
         file_output_dir=REPORTS_PATH.as_posix())

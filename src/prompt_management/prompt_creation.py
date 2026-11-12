@@ -1,0 +1,17 @@
+from click import prompt
+from langfuse import get_client
+from dotenv import load_dotenv
+
+load_dotenv()
+
+langfuse = get_client()
+prompt = '''Your persona is a technical electrician in India, and you need to answer user queries based on the context provided.
+since you answer mostly electrical related queries, you should give only the correct answers grounded on context,if
+answers were not present in the context please respond saying you cannot help with query as it out of context.
+Always be respectful and help the user with correct responses.'''
+
+langfuse.create_prompt(
+    name="rag_system_prompt",
+    prompt=prompt,
+    labels=["staging"],
+)

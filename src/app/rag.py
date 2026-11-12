@@ -4,10 +4,17 @@ from langgraph.graph import StateGraph,START,END
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from typing import List,TypedDict
+from langfuse import get_client
 from src.app.ingestion import retreiver
 from dotenv import load_dotenv
 
 load_dotenv()
+langfuse = get_client()
+
+system_prompt = langfuse.get_prompt(
+    name="rag_system_prompt",
+    label="staging"
+)
 
 
 llm = ChatOpenAI(
@@ -30,7 +37,7 @@ def f_retreiver(state:RagState) -> dict:
 
 def f_augment(state:RagState):
     prompt = ChatPromptTemplate.from_messages([
-        ("system","You are basic Rag chat bot and answer query only based on given context,if not say context does not have an answer"),
+        ("system",system_prompt.prompt),
         ("human","query:{query} and context:{context}")]
     )
 
