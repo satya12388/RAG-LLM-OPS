@@ -6,6 +6,7 @@ from langchain_core.output_parsers import StrOutputParser
 from typing import List,TypedDict
 from langfuse import get_client
 from src.app.ingestion import retreiver
+from src.config.config import params
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -18,8 +19,8 @@ system_prompt = langfuse.get_prompt(
 
 
 llm = ChatOpenAI(
-    model_name = "gpt-4o-mini",
-    temperature=1,
+    model_name=params.Rag.response_model,
+    temperature=params.Rag.temperature,
 )
 
 class RagState(TypedDict):

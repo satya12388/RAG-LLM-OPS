@@ -4,22 +4,24 @@ from langchain_openai import OpenAIEmbeddings,ChatOpenAI
 from langchain_chroma import Chroma
 from pathlib import Path
 from dotenv import load_dotenv
+from src.config.config import params
 
 load_dotenv()
 
 ## Initializing Models
 embedder = OpenAIEmbeddings(
-    model="text-embedding-3-small",
+    model=params.Ingestion.embedding_model,
 )
 
 vector_store = Chroma(
-    "guide-embeddings",
+    params.Ingestion.embedding_store,
     embedding_function=embedder,
     persist_directory=Path("./embeddings").as_posix()
 )
 
 retreiver = vector_store.as_retriever(
-    search_kwargs = {"k":4}
+    search_type=params.Ingestion.retriever_search_type,
+    search_kwargs={"k": params.Ingestion.retriever_K}
 )
 
 
@@ -34,7 +36,10 @@ def ingest_docs():
     docs = loader.load()
 
     ## Chunking the docs
-    splitter = RecursiveCharacterTextSplitter(chunk_size = 2000,chunk_overlap = 200)
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=params.Ingestion.chunk_size,
+        chunk_overlap=params.Ingestion.chunk_overlap
+    )
     chunks = splitter.split_documents(docs)
     print(f"The size of chunks is:{len(chunks)}")
 

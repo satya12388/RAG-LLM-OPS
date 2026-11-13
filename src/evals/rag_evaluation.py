@@ -9,6 +9,7 @@ from deepeval.metrics import (
 from deepeval.dataset import EvaluationDataset
 from langchain_openai import ChatOpenAI
 from src.evals.custom_metrics import correctness_metric
+from src.config.config import params
 
 from pathlib import Path
 from dotenv import load_dotenv
@@ -16,7 +17,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 ROOT_DIR_PATH = Path(__file__).parent.parent.parent
-TEST_CASES_PATH = ROOT_DIR_PATH/"data_sets"/"test_cases"/"rag_llm_testcases.json"
+TEST_CASES_PATH = ROOT_DIR_PATH/"data_sets"/"test_cases"/f"{params.LLM_TestCases.testcase_file_name}.json"
 REPORTS_PATH = ROOT_DIR_PATH/"reports"
 JSON_REPORTS = REPORTS_PATH/"Json"
 MD_REPORTS = REPORTS_PATH/"Markdown"
@@ -34,7 +35,7 @@ MD_REPORTS.mkdir(
     exist_ok=True
 )
 
-llm = "gpt-4.1-mini"
+llm = params.Evaluation.judge_model
 
 evaluation_data = EvaluationDataset()
 evaluation_data.add_test_cases_from_json_file(
@@ -59,7 +60,11 @@ metrics = [
 evaluate(
     test_cases = test_cases,
     metrics=metrics,
-    async_config=AsyncConfig(run_async=True,throttle_value=5,max_concurrent=3),
+    async_config=AsyncConfig(
+        run_async=True,
+        throttle_value=params.Evaluation.async_config.throttle_value,
+        max_concurrent=params.Evaluation.async_config.max_concurrent_evaluations
+    ),
     cache_config=CacheConfig(write_cache=False, use_cache=False),
     display_config=DisplayConfig(
         results_folder=JSON_REPORTS.as_posix(),

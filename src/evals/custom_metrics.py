@@ -2,10 +2,11 @@ from deepeval.metrics.g_eval import Rubric
 from deepeval.metrics import GEval
 from deepeval.test_case import SingleTurnParams
 from dotenv import load_dotenv
+from src.config.config import params
 
 load_dotenv()
 
-llm = "gpt-4.1-mini"
+llm = params.Evaluation.judge_model
 
 rubric = [
     Rubric(score_range=(0,2), expected_outcome="Factually incorrect."),

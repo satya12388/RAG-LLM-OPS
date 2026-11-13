@@ -3,10 +3,11 @@ from src.app.rag import graph_agent
 from deepeval.dataset import EvaluationDataset
 from deepeval.test_case import LLMTestCase
 from pathlib import Path
+from src.config.config import params
 
 ## paths
 ROOT_DIR = Path(__file__).parent.parent.parent
-GOLDEN_DIR = ROOT_DIR/"data_sets"/"goldens"/"rag_golden.json"
+GOLDEN_DIR = ROOT_DIR/"data_sets"/"goldens"/f"{params.Golden.golden_file_name}.json"
 TEST_CASES_DIR = GOLDEN_DIR.parent.parent/"test_cases"
 TEST_CASES_DIR.mkdir(parents=True,exist_ok=True)
 
@@ -36,6 +37,6 @@ for i,golden in enumerate(golden_data_set.goldens):
 testcases_data_set.save_as(
     file_type='json',
     directory=TEST_CASES_DIR,
-    file_name="rag_llm_testcases",
+    file_name=params.LLM_TestCases.testcase_file_name,
     include_test_cases=True
 )

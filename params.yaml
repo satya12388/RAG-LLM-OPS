@@ -1,0 +1,46 @@
+### Ingestion Parameters
+Ingestion:
+  embedding_model: text-embedding-3-small
+  embedding_store: guide-embeddings
+  retriever_search_type: similarity
+  retriever_K: 4
+  chunk_size: 2000
+  chunk_overlap: 200
+
+Rag:
+  response_model: gpt-4o-mini
+  temperature: 1
+
+Golden:
+  synthesizer_model: gpt-5-nano
+  max_concurrent: 1
+  max_goldens_per_doc: 1
+  golden_file_name: rag_golden
+
+  filtration_config:
+    filtration_threshold: 0.6
+    max_filtration_retries: 2
+    filtration_critic_model: gpt-4.1-mini
+  evolution_config:
+    num_evolutions: 1
+    evolutions:
+      multicontext: 0.1
+      concretizing: 0.2
+      constrained: 0.35
+      comparative: 0.35
+  context_config:
+    context_threshold: 0.6
+    max_context_per_doc: 2
+    context_critic_model: gpt-4.1-mini
+
+LLM_TestCases:
+  testcase_file_name: rag_llm_testcases
+
+Evaluation:
+  judge_model: gpt-4.1-mini
+  async_config:
+    throttle_value: 5
+    max_concurrent_evaluations: 3
+
+    
+
