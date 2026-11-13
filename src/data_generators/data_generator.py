@@ -13,7 +13,7 @@ DATA_SET_PATH.mkdir(parents = True,exist_ok = True)
 GOLDEN_DATA_PATH = DATA_SET_PATH/"goldens"
 GOLDEN_DATA_PATH.mkdir(parents = True,exist_ok = True)
 
-llm = "gpt-4o-mini"
+llm = "gpt-5-nano"
 critic_model = "gpt-4.1-mini"
 
 
@@ -61,7 +61,7 @@ evolution_config = EvolutionConfig(
 )
 
 context_config = ContextConstructionConfig(
-    max_contexts_per_document=3,
+    max_contexts_per_document=2,
     context_quality_threshold=0.6,
     critic_model=critic_model
 )
@@ -76,7 +76,7 @@ synthesizer = Synthesizer(
 goldens = synthesizer.generate_goldens_from_docs(
     document_paths=get_doc_path(path=DOCS_PATH),
     include_expected_output=True,
-    max_goldens_per_context=2,
+    max_goldens_per_context=1,
     context_construction_config=context_config
 )
 

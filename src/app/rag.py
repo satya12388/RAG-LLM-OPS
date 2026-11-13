@@ -13,7 +13,7 @@ langfuse = get_client()
 
 system_prompt = langfuse.get_prompt(
     name="rag_system_prompt",
-    label="staging"
+    label="latest"
 )
 
 

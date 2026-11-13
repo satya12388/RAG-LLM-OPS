@@ -20,8 +20,7 @@ testcases_data_set = EvaluationDataset()
 # calling LLM to create test cases
 for i,golden in enumerate(golden_data_set.goldens):
     final_state = graph_agent.invoke({"query":golden.input})
-    sleep(5)
-    print(f"/n======/nresponse: {final_state["response"]}")
+    sleep(3)
     test_case = LLMTestCase(
         input = golden.input,
         actual_output=final_state["response"],

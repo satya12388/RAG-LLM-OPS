@@ -18,7 +18,18 @@ load_dotenv()
 ROOT_DIR_PATH = Path(__file__).parent.parent.parent
 TEST_CASES_PATH = ROOT_DIR_PATH/"data_sets"/"test_cases"/"rag_llm_testcases.json"
 REPORTS_PATH = ROOT_DIR_PATH/"reports"
+JSON_REPORTS = REPORTS_PATH/"Json"
+MD_REPORTS = REPORTS_PATH/"Markdown"
+
 REPORTS_PATH.mkdir(
+    parents=True,
+    exist_ok=True
+)
+JSON_REPORTS.mkdir(
+    parents=True,
+    exist_ok=True
+)
+MD_REPORTS.mkdir(
     parents=True,
     exist_ok=True
 )
@@ -51,9 +62,9 @@ evaluate(
     async_config=AsyncConfig(run_async=True,throttle_value=5,max_concurrent=3),
     cache_config=CacheConfig(write_cache=False, use_cache=False),
     display_config=DisplayConfig(
-        results_folder=REPORTS_PATH.as_posix(),
-        file_type='html',
-        file_output_dir=REPORTS_PATH.as_posix())
+        results_folder=JSON_REPORTS.as_posix(),
+        file_type='md',
+        file_output_dir=MD_REPORTS.as_posix())
 )
 
 
