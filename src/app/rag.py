@@ -14,7 +14,7 @@ langfuse = get_client()
 
 system_prompt = langfuse.get_prompt(
     name="rag_system_prompt",
-    label="latest"
+    label=params.Rag.prompt_label
 )
 
 

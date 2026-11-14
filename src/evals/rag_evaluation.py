@@ -16,60 +16,66 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-ROOT_DIR_PATH = Path(__file__).parent.parent.parent
-TEST_CASES_PATH = ROOT_DIR_PATH/"data_sets"/"test_cases"/f"{params.LLM_TestCases.testcase_file_name}.json"
-REPORTS_PATH = ROOT_DIR_PATH/"reports"
-JSON_REPORTS = REPORTS_PATH/"Json"
-MD_REPORTS = REPORTS_PATH/"Markdown"
 
-REPORTS_PATH.mkdir(
-    parents=True,
-    exist_ok=True
-)
-JSON_REPORTS.mkdir(
-    parents=True,
-    exist_ok=True
-)
-MD_REPORTS.mkdir(
-    parents=True,
-    exist_ok=True
-)
+def evaluate_app():
 
-llm = params.Evaluation.judge_model
+    ROOT_DIR_PATH = Path(__file__).parent.parent.parent
+    TEST_CASES_PATH = ROOT_DIR_PATH/"data_sets"/"test_cases"/f"{params.LLM_TestCases.testcase_file_name}.json"
+    REPORTS_PATH = ROOT_DIR_PATH/"reports"
+    JSON_REPORTS = REPORTS_PATH/"Json"
+    MD_REPORTS = REPORTS_PATH/"Markdown"
 
-evaluation_data = EvaluationDataset()
-evaluation_data.add_test_cases_from_json_file(
-    file_path=TEST_CASES_PATH,
-    input_key_name="input",
-    actual_output_key_name="actual_output",
-    expected_output_key_name="expected_output",
-    retrieval_context_key_name="retrieval_context"
-)
+    REPORTS_PATH.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+    JSON_REPORTS.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+    MD_REPORTS.mkdir(
+        parents=True,
+        exist_ok=True
+    )
 
-test_cases = evaluation_data.test_cases
+    llm = params.Evaluation.judge_model
 
-metrics = [
-    ContextualRelevancyMetric(model=llm),
-    ContextualPrecisionMetric(model=llm),
-    ContextualRecallMetric(model=llm),
-    AnswerRelevancyMetric(model=llm),
-    FaithfulnessMetric(model=llm),
-    correctness_metric
-]
+    evaluation_data = EvaluationDataset()
+    evaluation_data.add_test_cases_from_json_file(
+        file_path=TEST_CASES_PATH,
+        input_key_name="input",
+        actual_output_key_name="actual_output",
+        expected_output_key_name="expected_output",
+        retrieval_context_key_name="retrieval_context"
+    )
 
-evaluate(
-    test_cases = test_cases,
-    metrics=metrics,
-    async_config=AsyncConfig(
-        run_async=True,
-        throttle_value=params.Evaluation.async_config.throttle_value,
-        max_concurrent=params.Evaluation.async_config.max_concurrent_evaluations
-    ),
-    cache_config=CacheConfig(write_cache=False, use_cache=False),
-    display_config=DisplayConfig(
-        results_folder=JSON_REPORTS.as_posix(),
-        file_type='md',
-        file_output_dir=MD_REPORTS.as_posix())
-)
+    test_cases = evaluation_data.test_cases
+
+    metrics = [
+        ContextualRelevancyMetric(model=llm),
+        ContextualPrecisionMetric(model=llm),
+        ContextualRecallMetric(model=llm),
+        AnswerRelevancyMetric(model=llm),
+        FaithfulnessMetric(model=llm),
+        correctness_metric
+    ]
+
+    evaluate(
+        test_cases = test_cases,
+        metrics=metrics,
+        async_config=AsyncConfig(
+            run_async=True,
+            throttle_value=params.Evaluation.async_config.throttle_value,
+            max_concurrent=params.Evaluation.async_config.max_concurrent_evaluations
+        ),
+        cache_config=CacheConfig(write_cache=False, use_cache=False),
+        display_config=DisplayConfig(
+            results_folder=JSON_REPORTS.as_posix(),
+            file_type='md',
+            file_output_dir=MD_REPORTS.as_posix())
+    )
+
+if __name__ == "__main__":
+    evaluate_app()
 
 

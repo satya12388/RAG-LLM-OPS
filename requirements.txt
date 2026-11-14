@@ -9,3 +9,4 @@ python-dotenv
 deepeval
 langchain-groq
 langfuse
+mlflow

@@ -4,12 +4,13 @@ Ingestion:
   embedding_store: guide-embeddings
   retriever_search_type: similarity
   retriever_K: 4
-  chunk_size: 2000
-  chunk_overlap: 200
+  chunk_size: 400
+  chunk_overlap: 150
 
 Rag:
   response_model: gpt-4o-mini
-  temperature: 1
+  temperature: 0
+  prompt_label: staging
 
 Golden:
   synthesizer_model: gpt-5-nano

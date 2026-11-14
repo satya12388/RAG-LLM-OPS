@@ -16,6 +16,7 @@ class Ingestion(BaseModel):
 class Rag(BaseModel):
     response_model: str
     temperature: float
+    prompt_label:str
 
     model_config = {"extra": "forbid"}
 

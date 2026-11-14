@@ -5,38 +5,43 @@ from deepeval.test_case import LLMTestCase
 from pathlib import Path
 from src.config.config import params
 
-## paths
-ROOT_DIR = Path(__file__).parent.parent.parent
-GOLDEN_DIR = ROOT_DIR/"data_sets"/"goldens"/f"{params.Golden.golden_file_name}.json"
-TEST_CASES_DIR = GOLDEN_DIR.parent.parent/"test_cases"
-TEST_CASES_DIR.mkdir(parents=True,exist_ok=True)
+def evaluation_dataset_generator():
 
-## creating data set and adding goldens
-golden_data_set = EvaluationDataset()
-golden_data_set.add_goldens_from_json_file(
-    file_path=GOLDEN_DIR
-)
+    ## paths
+    ROOT_DIR = Path(__file__).parent.parent.parent
+    GOLDEN_DIR = ROOT_DIR/"data_sets"/"goldens"/f"{params.Golden.golden_file_name}.json"
+    TEST_CASES_DIR = GOLDEN_DIR.parent.parent/"test_cases"
+    TEST_CASES_DIR.mkdir(parents=True,exist_ok=True)
 
-testcases_data_set = EvaluationDataset()
-# calling LLM to create test cases
-for i,golden in enumerate(golden_data_set.goldens):
-    final_state = graph_agent.invoke({"query":golden.input})
-    sleep(3)
-    test_case = LLMTestCase(
-        input = golden.input,
-        actual_output=final_state["response"],
-        expected_output=golden.expected_output,
-        retrieval_context=[doc.page_content for doc in final_state["retreived_docs"]]
+    ## creating data set and adding goldens
+    golden_data_set = EvaluationDataset()
+    golden_data_set.add_goldens_from_json_file(
+        file_path=GOLDEN_DIR
     )
-    print(f"testcase: {i} added succesfully")
-    testcases_data_set.add_test_case(test_case)
-    
 
-## save dataset with test cases
+    testcases_data_set = EvaluationDataset()
+    # calling LLM to create test cases
+    for i,golden in enumerate(golden_data_set.goldens):
+        final_state = graph_agent.invoke({"query":golden.input})
+        sleep(3)
+        test_case = LLMTestCase(
+            input = golden.input,
+            actual_output=final_state["response"],
+            expected_output=golden.expected_output,
+            retrieval_context=[doc.page_content for doc in final_state["retreived_docs"]]
+        )
+        print(f"testcase: {i} added succesfully")
+        testcases_data_set.add_test_case(test_case)
+        
 
-testcases_data_set.save_as(
-    file_type='json',
-    directory=TEST_CASES_DIR,
-    file_name=params.LLM_TestCases.testcase_file_name,
-    include_test_cases=True
-)
+    ## save dataset with test cases
+
+    testcases_data_set.save_as(
+        file_type='json',
+        directory=TEST_CASES_DIR,
+        file_name=params.LLM_TestCases.testcase_file_name,
+        include_test_cases=True
+    )
+
+if __name__ == "__main__":
+    evaluation_dataset_generator()
