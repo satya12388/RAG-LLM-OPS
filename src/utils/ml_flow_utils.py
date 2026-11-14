@@ -33,3 +33,18 @@ def get_metrics_from_tags(experiment_id,tag):
     for run in runs:
         metrics.append(run.data.metrics)
     return metrics
+
+def get_metrics_by_runid(run_id):
+    run = mlflow.get_run(run_id)
+    metrics = run.data.metrics
+    return metrics
+
+def get_metrics_by_stage(experiment_id,staging_type):
+    runs = mlflow.search_runs(
+        experiment_ids=[experiment_id],
+        filter_string=f"tags.stage = '{staging_type}'",
+        output_format='list'
+    )
+    metrics = runs[0].data.metrics
+    return metrics
+
