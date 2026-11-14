@@ -128,9 +128,6 @@ if __name__ == "__main__":
         mlflow.log_metrics(metrics)
         logger.info("Metrics Logged")
 
-        mlflow.set_tag("stage","baseline")
-        mlflow.set_tag("phase","noise_threshold")
-
     run_id = run.info.run_id
     run_name = run.info.run_name
 
