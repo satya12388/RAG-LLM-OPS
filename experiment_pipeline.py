@@ -1,8 +1,10 @@
 import mlflow
+import dagshub
 from src.config.config import params
 from src.data_generators.llm_test_case_generator import evaluation_dataset_generator
 from src.evals.rag_evaluation import evaluate_app
 from src.app.ingestion import ingest_docs
+from src.utils.ml_flow_utils import log_run_info
 from pathlib import Path
 from langfuse import get_client
 from dotenv import load_dotenv
@@ -77,47 +79,64 @@ if __name__ == "__main__":
     logger.setLevel(INFO)
     
 
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    # mlflow.set_tracking_uri("http://127.0.0.1:5000")
+
+    ## DAGS Setup for ML FLow
+    mlflow.set_tracking_uri("https://dagshub.com/satya12388/RAG-LLM-OPS.mlflow")
+    dagshub.init(repo_owner='satya12388', repo_name='RAG-LLM-OPS', mlflow=True)
+
     mlflow.set_experiment("llmops-ragapp")
 
-    ## log parameters
+    with mlflow.start_run() as run:
 
-    all_params = flatten_param(params.model_dump())
-    mlflow.log_params(all_params)
-    logger.info("parameter logged")
+        ## log parameters
 
-    ## log prompt
-    prompt = log_system_prompt(params.Rag.prompt_label)
-    mlflow.log_text(prompt,artifact_file="sys_prompt.txt")
-    logger.info("system prompt loggged")
+        all_params = flatten_param(params.model_dump())
+        mlflow.log_params(all_params)
+        logger.info("parameter logged")
 
-    ## create evaluation dataset
-    ingest_docs()
-    evaluation_dataset_generator()
-    logger.info("evaluation data set generated")
-    evaluate_app()
-    logger.info("evaluation completed")
+        ## log prompt
+        prompt = log_system_prompt(params.Rag.prompt_label)
+        mlflow.log_text(prompt,artifact_file="sys_prompt.txt")
+        logger.info("system prompt loggged")
 
-    ## Paths to get results
-    DATA_SET_PATH = ROOT_DIR/"data_sets"/"test_cases"
-    RESULT_PATH = ROOT_DIR/"reports"/"Json"
-    REPORT_PATH = RESULT_PATH.parent/"Markdown"
-    recent_result_name = get_latest_result_name(RESULT_PATH)
-    recent_report_name = get_latest_report_name(REPORT_PATH)
+        ## create evaluation dataset
+        ingest_docs()
+        evaluation_dataset_generator()
+        logger.info("evaluation data set generated")
+        evaluate_app()
+        logger.info("evaluation completed")
 
-    result_file = RESULT_PATH/f"{recent_result_name}.json"
-    report_file = REPORT_PATH/f"{recent_report_name}.md"
-    test_case_file = DATA_SET_PATH/f"{params.LLM_TestCases.testcase_file_name}.json"
+        ## Paths to get results
+        DATA_SET_PATH = ROOT_DIR/"data_sets"/"test_cases"
+        RESULT_PATH = ROOT_DIR/"reports"/"Json"
+        REPORT_PATH = RESULT_PATH.parent/"Markdown"
+        recent_result_name = get_latest_result_name(RESULT_PATH)
+        recent_report_name = get_latest_report_name(REPORT_PATH)
 
-    mlflow.log_artifact(result_file,artifact_path="results")
-    mlflow.log_artifact(report_file,artifact_path="reports")
-    mlflow.log_artifact(test_case_file,artifact_path="data")
-    logger.info("artifacts logged")
+        result_file = RESULT_PATH/f"{recent_result_name}.json"
+        report_file = REPORT_PATH/f"{recent_report_name}.md"
+        test_case_file = DATA_SET_PATH/f"{params.LLM_TestCases.testcase_file_name}.json"
 
-    ### log metrics
-    metrics = get_aggregate_metrics(result_file)
-    mlflow.log_metrics(metrics)
-    logger.info("Metrics Logged")
+        mlflow.log_artifact(result_file,artifact_path="results")
+        mlflow.log_artifact(report_file,artifact_path="reports")
+        mlflow.log_artifact(test_case_file,artifact_path="data")
+        logger.info("artifacts logged")
+
+        ### log metrics
+        metrics = get_aggregate_metrics(result_file)
+        mlflow.log_metrics(metrics)
+        logger.info("Metrics Logged")
+
+        mlflow.set_tag("stage","baseline")
+        mlflow.set_tag("phase","noise_threshold")
+
+    run_id = run.info.run_id
+    run_name = run.info.run_name
+
+    log_run_info(run_id, run_name)
+
+    
 
 
 

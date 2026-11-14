@@ -10,3 +10,4 @@ deepeval
 langchain-groq
 langfuse
 mlflow
+dagshub
