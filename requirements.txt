@@ -1,3 +1,4 @@
+## Orchestration
 langgraph
 langchain
 langchain-core
@@ -5,9 +6,16 @@ langchain-openai
 langchain-chroma
 langchain-community
 langchain-text-splitters
-python-dotenv
-deepeval
 langchain-groq
+## ENV
+python-dotenv
+## Evaluation and tracking
+deepeval
 langfuse
 mlflow
 dagshub
+## Guardrails
+guardrails-ai
+guardrails-ai-prompt-injection-detector
+guardrails-ai-relevancy-evaluator
+
