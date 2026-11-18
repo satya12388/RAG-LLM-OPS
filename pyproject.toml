@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "dagshub>=0.7.3",
     "deepeval>=4.3.3",
+    "fastapi[standard]>=0.162.7",
     "guardrails-ai>=0.11.0",
     "guardrails-ai-prompt-injection-detector>=0.0.2",
     "guardrails-ai-relevancy-evaluator>=0.1.0",

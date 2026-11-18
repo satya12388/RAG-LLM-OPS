@@ -19,3 +19,6 @@ guardrails-ai
 guardrails-ai-prompt-injection-detector
 guardrails-ai-relevancy-evaluator
 
+## serving
+fastapi[standard]
+
