@@ -1,4 +1,6 @@
 import asyncio
+import logging
+from logging import INFO
 from typing import Literal
 from langchain_openai import ChatOpenAI
 from langchain_core.documents import Document
@@ -14,6 +16,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 langfuse = get_client()
+
+## Logger
+logger = logging.getLogger(name="Rag App logger")
+handler = logging.StreamHandler()
+formatter = logging.Formatter(fmt="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+handler.setFormatter(fmt=formatter)
+logger.addHandler(handler)
+logger.setLevel(INFO)
+logger.propagate = False
+
 
 system_prompt = langfuse.get_prompt(
     name="rag_system_prompt",
@@ -57,6 +69,7 @@ def f_retreiver(state:RagState) -> dict:
     query = state["query"]
     retreived_docs = retreiver.invoke(query)
     context = "\n\n".join([doc.page_content for doc in retreived_docs])
+    logger.info("retreiver step completed")
     return {"retreived_docs":retreived_docs,"context":context}
 
 def f_augment(state:RagState):
@@ -64,7 +77,7 @@ def f_augment(state:RagState):
         ("system",system_prompt.prompt),
         ("human","query:{query} and context:{context}")]
     )
-
+    logger.info("Prompt Augmentation step completed")
     return {"prompt":prompt}
 
 def f_generate(state:RagState):
@@ -76,6 +89,7 @@ def f_generate(state:RagState):
     rag_chain = prompt | llm | StrOutputParser()
     response = rag_chain.invoke({"query":query,"context":context})
 
+    logger.info("Response Genereation step completed")
     return {"response":response}
 
 ## Guardrailnodes
@@ -91,7 +105,7 @@ def inputguardrailnode(state:RagState):
             "guardrails_stage":"input",
             "guardrail_msg":str(e)
         }
-
+        logger.error(f"query failed at input guardrails:{e}")
         return result
 
     if not outcome.validation_passed:
@@ -100,6 +114,7 @@ def inputguardrailnode(state:RagState):
             "guardrails_stage":"input",
             "guardrail_msg":outcome.error or "Input Validation Failed"
         }
+        logger.error(f"input guardrails result:{result}")
         return result
 
     result = {
@@ -108,6 +123,7 @@ def inputguardrailnode(state:RagState):
             "guardrails_stage":"input",
             "guardrail_msg":""
         }
+    logger.info("Input Query Passed Validatin")
     return result
 
 def retreivarguardrailnode(state:RagState):
@@ -129,7 +145,7 @@ def retreivarguardrailnode(state:RagState):
             "guardrails_stage":"retreiver",
             "guardrail_msg":str(e)
         }
-
+        logger.error(f"failed at retreivar guardrails:{e}")
         return result
 
     if not outcome.validation_passed:
@@ -138,6 +154,7 @@ def retreivarguardrailnode(state:RagState):
             "guardrails_stage":"retreiver",
             "guardrail_msg":outcome.error or "retreiver validation failed"
         }
+        logger.error(f"failed at retreivar guardrails:{result}")
         return result
 
     result = {
@@ -146,6 +163,7 @@ def retreivarguardrailnode(state:RagState):
             "guardrails_stage":"retreiver",
             "guardrail_msg":""
         }
+    logger.info("retreivar guard rails step passed")
     return result
 
 def outputguardrailnode(state:RagState):
@@ -160,7 +178,7 @@ def outputguardrailnode(state:RagState):
             "guardrails_stage":"output",
             "guardrail_msg":str(e)
         }
-
+        logger.error(f"failed at output guardrails:{e}")
         return result
 
     if not outcome.validation_passed:
@@ -169,6 +187,7 @@ def outputguardrailnode(state:RagState):
             "guardrails_stage":"output",
             "guardrail_msg":outcome.error or "response validation failed"
         }
+        logger.error(f"failed at retreivar guardrails:{result}")
         return result
 
     result = {
@@ -177,6 +196,7 @@ def outputguardrailnode(state:RagState):
             "guardrails_stage":"output",
             "guardrail_msg":""
         }
+    logger.info("Output guardrails passed.")
     return result
 
 def critical_msg_node(state:RagState):

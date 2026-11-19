@@ -1,4 +1,6 @@
 import hashlib
+import logging
+from logging import INFO
 from langchain_community.document_loaders import DirectoryLoader,TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
@@ -8,6 +10,14 @@ from dotenv import load_dotenv
 from src.config.config import params
 
 load_dotenv()
+
+## Logger
+logger = logging.getLogger(name="Ingestion logger")
+handler = logging.StreamHandler()
+formatter = logging.Formatter(fmt="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+handler.setFormatter(fmt=formatter)
+logger.addHandler(handler)
+logger.setLevel(INFO)
 
 ## Initializing Models
 embedder = OpenAIEmbeddings(
@@ -65,7 +75,7 @@ def ingest_docs():
         chunk_overlap=params.Ingestion.chunk_overlap
     )
     chunks = splitter.split_documents(docs)
-    print(f"Total chunks created from files: {len(chunks)}")
+    logger.info(f"Total chunks created from files: {len(chunks)}")
 
     ## Generate deterministic IDs for each chunk
     ids = generate_deterministic_ids(chunks)
@@ -84,11 +94,11 @@ def ingest_docs():
     ## Send ONLY new chunks to OpenAI Embeddings
     if new_chunks:
         skipped_count = len(chunks) - len(new_chunks)
-        print(f"Embedding {len(new_chunks)} new/modified chunks (Skipped {skipped_count} unchanged chunks, saving API cost).")
+        logger.info(f"Embedding {len(new_chunks)} new/modified chunks (Skipped {skipped_count} unchanged chunks, saving API cost).")
         vector_store.add_documents(new_chunks, ids=new_ids)
-        print("Ingestion completed successfully.")
+        logger.info("Ingestion completed successfully.")
     else:
-        print("All chunks are already up-to-date in vector store. 0 embedding API calls made!")
+       logger.info("All chunks are already up-to-date in vector store. 0 embedding API calls made!")
 
 if __name__ == "__main__":
     # Only runs when executing `python ingestion.py` directly, not on import
