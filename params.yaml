@@ -1,6 +1,6 @@
 ### Ingestion Parameters
 Ingestion:
-  embedding_model: text-embedding-3-small
+  embedding_model: text-embedding-3-large
   embedding_store: guide-embeddings
   retriever_search_type: similarity
   retriever_K: 4
