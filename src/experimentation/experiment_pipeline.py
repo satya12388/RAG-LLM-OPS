@@ -4,7 +4,7 @@ from src.config.config import params
 from src.data_generators.llm_test_case_generator import evaluation_dataset_generator
 from src.evals.rag_evaluation import evaluate_app
 from src.app.ingestion import ingest_docs
-from src.utils.ml_flow_utils import log_run_info
+from src.utils.ml_flow_utils import log_run_info,remove_stale_challengers
 from pathlib import Path
 from langfuse import get_client
 from dotenv import load_dotenv
@@ -86,6 +86,9 @@ if __name__ == "__main__":
     dagshub.init(repo_owner='satya12388', repo_name='RAG-LLM-OPS', mlflow=True)
 
     mlflow.set_experiment("llmops-ragapp")
+    experiment_id = mlflow.get_experiment_by_name("llmops-ragapp").experiment_id
+    stale = remove_stale_challengers(experiment_id)
+    logger.inf(f"removed stage tag for {stale} existing challengers")
 
     with mlflow.start_run() as run:
 
@@ -127,6 +130,9 @@ if __name__ == "__main__":
         metrics = get_aggregate_metrics(result_file)
         mlflow.log_metrics(metrics)
         logger.info("Metrics Logged")
+
+        ## set present run tag to challenger:
+        mlflow.set_tag("stage","challenger")
 
     run_id = run.info.run_id
     run_name = run.info.run_name

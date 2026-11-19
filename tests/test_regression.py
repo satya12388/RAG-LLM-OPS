@@ -11,7 +11,8 @@ THRESHOLDS = ROOT_DIR/"thresholds.json"
 HISTORICAL_RUNS = ROOT_DIR/"historical_runs.json"
 
 MULTIPLIER = 2
-TARGET = "staging"
+CHALLENGER = "challenger"
+CHAMPION = "champion"
 MIN_METRICS_TO_PASS = 3
 
 ## DAGS Setup for ML FLow
@@ -40,24 +41,26 @@ def get_threshold_values(path,type):
         raise ValueError(f"only drift and regression thresholds available")
 
 run_id = get_latest_runid(HISTORICAL_RUNS)
-latest_metrics = get_metrics_by_runid(run_id)
-staging_metrics = get_metrics_by_stage(experiment_id,TARGET)
+# latest_metrics = get_metrics_by_runid(run_id)
+challenger_metrics = get_metrics_by_stage(experiment_id,CHALLENGER)
+champion_metrics = get_metrics_by_stage(experiment_id,CHAMPION)
+
 drift_thresholds = get_threshold_values(THRESHOLDS,"drift_thresholds")
 regression_thresholds = get_threshold_values(THRESHOLDS,"regression_thresholds")
-metric_names = latest_metrics.keys()
-staging_names = staging_metrics.keys()
+challenge_metric_names = challenger_metrics.keys()
+champion_metric_names = champion_metrics.keys()
 
 
 def test_similar_metric_names():
-    assert metric_names == staging_names, "comparison metrics different, use same metrics for comparison only"
-    if not metric_names == staging_names:
+    assert challenge_metric_names == champion_metric_names, "comparison metrics different, use same metrics for comparison only"
+    if not challenge_metric_names == champion_metric_names:
         pytest.exit(reason="Comparison metrics are different")
 
-@pytest.mark.parametrize(argnames="metric",argvalues=metric_names)
+@pytest.mark.parametrize(argnames="metric",argvalues=champion_metric_names)
 def test_regression_on_metric(metric):
 
-    base_value = staging_metrics[metric]
-    actual_value = latest_metrics[metric]
+    base_value = champion_metrics[metric]
+    actual_value = challenger_metrics[metric]
     threshold = MULTIPLIER *(drift_thresholds[metric]+regression_thresholds[metric])
     assert (actual_value > base_value-threshold), f'test case failed on metric: {metric}, actual:{actual_value}, base:{base_value}'
 
@@ -68,9 +71,9 @@ def test_promotion_on_majority_metrics():
     breached_metrics = []
     verdicts = []
 
-    for metric in metric_names:
-        base_value = staging_metrics[metric]
-        actual_value = latest_metrics[metric]
+    for metric in champion_metric_names:
+        base_value = champion_metrics[metric]
+        actual_value = challenger_metrics[metric]
         threshold = MULTIPLIER *(drift_thresholds[metric])
 
         delta = actual_value - base_value
