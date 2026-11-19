@@ -72,7 +72,7 @@ def del_stage(run_id):
     MlflowClient().delete_tag(run_id=run_id,key="stage")
 
 def remove_stale_challengers(experiment_id,staging_type="challanger"):
-    stale_runs = get_run_by_stage(experiment_id,staging_type)
+    stale_runs = get_runs_by_stage(experiment_id,staging_type)
     for run in stale_runs:
         del_stage(run.info.run_id,staging_type)
 

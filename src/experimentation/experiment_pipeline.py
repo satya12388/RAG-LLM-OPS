@@ -88,7 +88,7 @@ if __name__ == "__main__":
     mlflow.set_experiment("llmops-ragapp")
     experiment_id = mlflow.get_experiment_by_name("llmops-ragapp").experiment_id
     stale = remove_stale_challengers(experiment_id)
-    logger.inf(f"removed stage tag for {stale} existing challengers")
+    logger.info(f"removed stage tag for {stale} existing challengers")
 
     with mlflow.start_run() as run:
 
