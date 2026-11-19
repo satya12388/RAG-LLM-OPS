@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - params.yaml
-  workkflow_dispatch:
+  workflow_dispatch:
 
 permissions:
   contents: read
