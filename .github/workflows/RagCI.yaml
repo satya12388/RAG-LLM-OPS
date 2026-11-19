@@ -1,0 +1,113 @@
+name: RAG CI Workkflow
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - params.yaml
+  Workkflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  experiment-tracking:
+    name: run RAG App experimentation pipeline
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_USER_TOKEN }}
+      LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+      LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+      LANGFUSE_BASE_URL: ${{ vars.LANGFUSE_BASE_URL }}
+      DEEPEVAL_TELEMETRY_OPT_OUT: "YES"
+    steps:
+      - name: checkout_repository
+        uses: actions/checkout@v7
+
+      - name: Python Setup
+        uses: actions/setup-python@v7
+        with:
+          python-version-file: ".python-version"
+      
+      - name: UV Setup
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
+        with:
+          enable-cache: true
+
+      - name: UV Install Dependencies
+        run: uv sync --frozen
+
+      - name: run pipeline
+        run: uv run src/experimentation/experiment_pipeline.py
+
+      - name: show success
+        if success()
+        run: echo "Experimentation run succesfull
+
+  run-test:
+    name: regression-testing
+    needs: experiment-tracking
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_USER_TOKEN }}
+
+    steps:
+      - name: checkout_repository
+        uses: actions/checkout@v7
+
+      - name: Python Setup
+        uses: actions/setup-python@v7
+        with:
+          python-version-file: ".python-version"
+      
+      - name: UV Setup
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
+        with:
+          enable-cache: true
+
+      - name: UV Install Dependencies
+        run: uv sync --frozen
+
+      - name: regression gate
+        id: regression-gate
+        run: uv run pytest tests/test_regression.py
+
+      - name: Reject challenger on regression failure
+        if: always() && steps.regression-gate.outcome == 'failure'
+        run: uv run python src/experimentation/reject_challenger.py
+
+  promote:
+    name: promote-challenger
+    needs: run-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_USER_TOKEN }}
+
+    steps:
+      - name: checkout_repository
+        uses: actions/checkout@v7
+
+      - name: Python Setup
+        uses: actions/setup-python@v7
+        with:
+          python-version-file: ".python-version"
+      
+      - name: UV Setup
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
+        with:
+          enable-cache: true
+
+      - name: UV Install Dependencies
+        run: uv sync --frozen
+
+      - name: promote challenger
+        run: uv run python src/experimentation/promote_challenger.py 
+
+
+      
+
+
