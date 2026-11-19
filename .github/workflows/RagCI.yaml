@@ -43,7 +43,7 @@ jobs:
         run: uv run src/experimentation/experiment_pipeline.py
 
       - name: show success
-        if success()
+        if: success()
         run: echo "Experimentation run succesfull
 
   run-test:
