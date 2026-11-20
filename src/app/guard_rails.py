@@ -73,7 +73,7 @@ class OnTopic(Validator):
 
 topics = ["electrical and electrical terminologies","home appliances","buying guides related to electrical equipments and home appliances"]
 input_guard = AsyncGuard().use(
-    OnTopic(threshold=0,validate_topic=topics,on_fail="refrain"),
+    OnTopic(threshold=0.6,validate_topic=topics,on_fail="refrain"),
     PromptInjectionDetector(
         llm_callable=guard_llm,
         on_fail="exception"

@@ -1,5 +1,5 @@
 from time import sleep
-from src.app.rag import graph_agent
+from src.app.rag_noguardrails import graph_agent
 from deepeval.dataset import EvaluationDataset
 from deepeval.test_case import LLMTestCase
 from pathlib import Path
