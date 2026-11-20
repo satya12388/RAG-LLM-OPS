@@ -17,9 +17,9 @@ rubric = [
 
 correctness_metric = GEval(
     name="correctness metric",
-    criteria="Evaluate the correctness of response by comparing actual and expected outpusts",
+    criteria="Check how much of the actual output is correct based on expected output, dont be strict but check if user gets helpful informatino or not.",
     evaluation_params=[SingleTurnParams.ACTUAL_OUTPUT,SingleTurnParams.EXPECTED_OUTPUT],
     model= llm,
     rubric=rubric,
-    verbose_mode=True
+    verbose_mode=False
 )
