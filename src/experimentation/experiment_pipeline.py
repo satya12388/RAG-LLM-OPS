@@ -14,7 +14,7 @@ from logging import INFO
 
 
 load_dotenv()
-ROOT_DIR = Path(__file__).parent
+ROOT_DIR = Path(__file__).parent.parent.parent
 
 ## function to flatten params
 def flatten_param(params):
