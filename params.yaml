@@ -10,7 +10,7 @@ Ingestion:
 Rag:
   response_model: gpt-4o-mini
   temperature: 0
-  prompt_label: staging
+  prompt_label: challenger
 
 Golden:
   synthesizer_model: gpt-5-nano
