@@ -1,16 +1,16 @@
 ### Ingestion Parameters
 Ingestion:
-  embedding_model: text-embedding-3-large
+  embedding_model: text-embedding-3-small
   embedding_store: guide-embeddings
   retriever_search_type: similarity
   retriever_K: 3
-  chunk_size: 300
-  chunk_overlap: 20
+  chunk_size: 200
+  chunk_overlap: 10
 
 Rag:
   response_model: gpt-4o-mini
   temperature: 0
-  prompt_label: challenger
+  prompt_label: staging
 
 Golden:
   synthesizer_model: gpt-5-nano
