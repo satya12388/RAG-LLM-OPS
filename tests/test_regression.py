@@ -40,7 +40,7 @@ def get_threshold_values(path,type):
     else:
         raise ValueError(f"only drift and regression thresholds available")
 
-run_id = get_latest_runid(HISTORICAL_RUNS)
+# run_id = get_latest_runid(HISTORICAL_RUNS)
 # latest_metrics = get_metrics_by_runid(run_id)
 challenger_metrics = get_metrics_by_stage(experiment_id,CHALLENGER)
 champion_metrics = get_metrics_by_stage(experiment_id,CHAMPION)

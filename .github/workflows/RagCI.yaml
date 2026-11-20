@@ -40,7 +40,7 @@ jobs:
         run: uv sync --frozen
 
       - name: run pipeline
-        run: uv run src/experimentation/experiment_pipeline.py
+        run: uv run python src/experimentation/experiment_pipeline.py
 
       - name: Show new challenger run
         if: success()
