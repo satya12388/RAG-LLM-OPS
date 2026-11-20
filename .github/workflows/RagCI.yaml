@@ -42,9 +42,13 @@ jobs:
       - name: run pipeline
         run: uv run src/experimentation/experiment_pipeline.py
 
-      - name: show success
+      - name: Show new challenger run
         if: success()
-        run: echo "Experimentation run succesfull
+        run: |
+          echo "### New challenger run" >> "$GITHUB_STEP_SUMMARY"
+          echo '```json' >> "$GITHUB_STEP_SUMMARY"
+          tail -n 6 historical_runs.json >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
 
   run-test:
     name: regression-testing
