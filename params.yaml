@@ -3,7 +3,7 @@ Ingestion:
   embedding_model: text-embedding-3-large
   embedding_store: guide-embeddings
   retriever_search_type: similarity
-  retriever_K: 4
+  retriever_K: 3
   chunk_size: 300
   chunk_overlap: 20
 
