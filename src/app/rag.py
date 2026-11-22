@@ -187,7 +187,7 @@ def outputguardrailnode(state:RagState):
             "guardrails_stage":"output",
             "guardrail_msg":outcome.error or "response validation failed"
         }
-        logger.error(f"failed at retreivar guardrails:{result}")
+        logger.error(f"failed at output guardrails:{result}")
         return result
 
     result = {
