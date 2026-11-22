@@ -5,3 +5,4 @@ class HealthResponse(BaseModel):
 
 class AppRequest(BaseModel):
     query:str
+    sessionid:str | None = None

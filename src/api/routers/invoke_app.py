@@ -20,7 +20,8 @@ def invoke_app(request:AppRequest):
     try:
         result = graph_agent.invoke({"query":query})
 
-    except:
+    except Exception as e:
+        print(e)
         raise HTTPException(
             status.HTTP_500_INTERNAL_SERVER_ERROR
         )

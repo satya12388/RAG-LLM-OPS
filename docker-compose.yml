@@ -1,0 +1,36 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.api
+      secrets:
+        - openai_api_key
+    image: rag-api-image:latest
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.frontend
+    image: rag-frontend-image:latest
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      - BACKEND_API_URL=http://api:8000
+      - SESSIONS_FILE_PATH=/RAGFrontend/sessions/frontend_session.json
+    volumes:
+      - frontend_session:/RAGFrontend/sessions
+    depends_on:
+      - api
+
+secrets:
+  openai_api_key:
+    environment: OPENAI_API_KEY
+
+volumes:
+  frontend_session:
