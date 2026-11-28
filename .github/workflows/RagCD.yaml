@@ -1,0 +1,74 @@
+name: RAG CD Worlflow
+
+on:
+  workflow_run:
+    workflows: ["RAG CI Workkflow"]
+    types: ["completed"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  AWS_REGION: ap-south-1
+  ECR_API_REPOSITORY: ops-rag-api
+  ECR_FRONTEND_REPOSITORY: ops-rag-frontend
+
+jobs:
+  build-and-push:
+    name: deploy images to ECR
+    runs-on: ubuntu-latest
+    if: github.event_name=='workflow_dispatch' || github.event.worflow_run.conclusion == 'success'
+    timeout-minutes: 30
+    steps:
+      - name: checkout_repository
+        uses: actions/checkout@v7
+        with:
+          ref: ${{github.event.workflow_run.head_sha || github.sha}}
+
+      - name: configure aws creds
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{env.AWS_REGION}}
+
+      - name: aws ecr login
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: check-repo-exists
+        run: |
+          for repo in "$ECR_API_REPOSITORY" "$ECR_FRONTEND_REPOSITORY"; do
+            aws ecr describe-repositories --repository-names "$repo" --region "$AWS_REGION" >/dev/null 2>&1 \
+              || aws ecr create-repository --repository-name "$repo" --region "$AWS_REGION"
+          done
+
+      - name: setup-docker
+        uses: docker/setup-buildx-action@v4
+
+      - name: name image tag
+        id: vars
+        run: echo "sha=${{ github.event.workflow_run.head_sha || github.sha }}" >> "$GITHUB_OUTPUT"
+
+      - name: push api image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/dockerfile.api
+          push: true
+          secrets: /
+            openai_api_key = ${{secrets.OPENAI_API_KEY}}
+          tags: /
+            ${{steps.ecr-login.outputs.registry}}/${{env.ECR_API_REPOSITORY}}:${{steps.vars.outputs.sha}}
+            ${{steps.ecr-login.outputs.registry}}/${{env.ECR_API_REPOSITORY}}:latest
+
+      - name: push frontend image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/dockerfile.frontend
+          push: true
+          tags: /
+            ${{steps.ecr-login.outputs.registry}}/${{env.ECR_FRONTEND_REPOSITORY}}:${{steps.vars.outputs.sha}}
+            ${{steps.ecr-login.outputs.registry}}/${{env.ECR_FRONTEND_REPOSITORY}}:latest
