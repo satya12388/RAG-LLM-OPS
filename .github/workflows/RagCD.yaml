@@ -13,6 +13,9 @@ env:
   AWS_REGION: ap-southeast-2
   ECR_API_REPOSITORY: ops-rag-api
   ECR_FRONTEND_REPOSITORY: ops-rag-frontend
+  DEPLOY_BUCKET: rag-app-s3-bucket
+  CODEDEPLOY_APP: rag-ops
+  CODEDEPLOY_GROUP: rag-ops-dg
 
 jobs:
   build-and-push:
@@ -72,3 +75,55 @@ jobs:
           tags: |
             ${{steps.ecr-login.outputs.registry}}/${{env.ECR_FRONTEND_REPOSITORY}}:${{steps.vars.outputs.sha}}
             ${{steps.ecr-login.outputs.registry}}/${{env.ECR_FRONTEND_REPOSITORY}}:latest
+
+  deploy-code-to-aws:
+    name: Roll out to EC2 via CodeDeploy
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out the promoted commit
+        uses: actions/checkout@v7 # v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6 # v6.2.4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Assemble the CodeDeploy revision bundle
+        run: |
+          set -euo pipefail
+          mkdir -p bundle/scripts
+          cp deployment/appspec.yaml bundle/
+          cp deployment/docker-compose.yaml bundle/
+          cp deployment/scripts/*.sh bundle/scripts/
+          chmod +x bundle/scripts/*.sh
+
+      - name: Upload the revision to S3
+        id: rev
+        run: |
+          set -euo pipefail
+          SHA="${{ github.event.workflow_run.head_sha || github.sha }}"
+          KEY="Rag-Ops/${SHA}.zip"
+          ( cd bundle && zip -qr ../revision.zip . )
+          aws s3 cp revision.zip "s3://${DEPLOY_BUCKET}/${KEY}"
+          echo "key=${KEY}" >> "$GITHUB_OUTPUT"
+
+      - name: Create the deployment
+        run: |
+          set -euo pipefail
+          DEPLOYMENT_ID=$(aws deploy create-deployment \
+            --application-name "$CODEDEPLOY_APP" \
+            --deployment-group-name "$CODEDEPLOY_GROUP" \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
+            --s3-location "bucket=${DEPLOY_BUCKET},key=${{ steps.rev.outputs.key }},bundleType=zip" \
+            --file-exists-behavior OVERWRITE \
+            --description "CD ${{ github.event.workflow_run.head_sha || github.sha }}" \
+            --query deploymentId --output text)
+          echo "Deployment $DEPLOYMENT_ID"
+          echo "https://console.aws.amazon.com/codesuite/codedeploy/deployments/${DEPLOYMENT_ID}?region=${AWS_REGION}"
