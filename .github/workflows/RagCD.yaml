@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 env:
-  AWS_REGION: ap-south-1
+  AWS_REGION: ap-southeast-2
   ECR_API_REPOSITORY: ops-rag-api
   ECR_FRONTEND_REPOSITORY: ops-rag-frontend
 
