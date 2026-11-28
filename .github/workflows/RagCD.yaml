@@ -57,9 +57,9 @@ jobs:
           context: .
           file: docker/dockerfile.api
           push: true
-          secrets: /
+          secrets: |
             openai_api_key = ${{secrets.OPENAI_API_KEY}}
-          tags: /
+          tags: |
             ${{steps.ecr-login.outputs.registry}}/${{env.ECR_API_REPOSITORY}}:${{steps.vars.outputs.sha}}
             ${{steps.ecr-login.outputs.registry}}/${{env.ECR_API_REPOSITORY}}:latest
 
