@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REGION= ap-southeast-2
+REGION=ap-southeast-2
 ACCOUNT_ID=433306737796
 SECRET_ID=rag-ops
 APP_DIR=/opt/Rag-Ops
