@@ -55,7 +55,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: docker/dockerfile.api
+          file: docker/Dockerfile.api
           push: true
           secrets: |
             openai_api_key = ${{secrets.OPENAI_API_KEY}}
@@ -67,7 +67,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: docker/dockerfile.frontend
+          file: docker/Dockerfile.frontend
           push: true
           tags: /
             ${{steps.ecr-login.outputs.registry}}/${{env.ECR_FRONTEND_REPOSITORY}}:${{steps.vars.outputs.sha}}
